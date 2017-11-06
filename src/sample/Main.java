@@ -16,7 +16,7 @@ public class Main extends Application {
     Movement movement5;
 
     private void init(Stage primaryStage) {
-        Group root = new Group();
+        Group root = GlobalVariables.root;
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, GlobalVariables.sceneWidth,GlobalVariables.sceneHeight));
 
@@ -77,7 +77,7 @@ public class Main extends Application {
 
 
 
-        PendingEventList p= GlobalVariables.pendingEventList;
+        PendingInstructionList p= GlobalVariables.pendingInstructionList;
 
         //Few button Presses from the floors
         p.add(new ButtonEvent(GlobalVariables.floors.get(4), ButtonEvent.Direction.DOWN));

@@ -14,12 +14,21 @@ public class ProcessorThread extends Thread {
     }
 
     public void settleEvents() {
-        while (GlobalVariables.pendingEventList.size() > 0) {
-            ButtonEvent buttonEvent = GlobalVariables.pendingEventList.getNext();
+        while (GlobalVariables.pendingInstructionList.size() > 0) {
+            ButtonEvent buttonEvent = GlobalVariables.pendingInstructionList.getNext();
 
             if(buttonEvent.typeOfCall== ButtonEvent.TypeOfCall.OUTSIDEBUTTON){
                 if(buttonEvent.status==ButtonEvent.StatusOfEvent.INSTRUCTED){
-                    findClosestCarPreferablyMovingInSameDirection(buttonEvent.fromfloor,buttonEvent.direction);
+                    //Find the best Car
+                    Car bestCar = findClosestCarPreferablyMovingInSameDirection(buttonEvent.fromfloor,buttonEvent.direction);
+
+                    //Create a movement plan of that Car
+                    Movement movement =new Movement(bestCar,buttonEvent.fromfloor);
+                    GlobalVariables.root.getChildren().add(movement.path);
+
+                    //Add the movement to the pending Movements
+                    GlobalVariables.pendingActionListPerCar.get(bestCar).add(movement);
+
                 }
             }
         }
@@ -47,6 +56,7 @@ public class ProcessorThread extends Thread {
                 }
             }
         }
+        return selectedCar;
     }
 
 }

@@ -1,11 +1,16 @@
 package sample;
 
+import javafx.scene.Group;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by rajat on 05-11-2017.
  */
 public class GlobalVariables {
+
+    public static Group root = new Group();
 
     public static int sceneWidth=2000;
     public static int sceneHeight=1000;
@@ -21,7 +26,9 @@ public class GlobalVariables {
     public static HashMap<Integer,LiftChannel> channels= new HashMap<Integer,LiftChannel>();
     public static HashMap<Integer, Car> cars= new HashMap<Integer, Car>();
 
-    public static PendingEventList pendingEventList= new PendingEventList();
+    public static PendingInstructionList pendingInstructionList = new PendingInstructionList();
+
+    public static HashMap<Car,ArrayList<Movement>> pendingActionListPerCar= new HashMap<Car,ArrayList<Movement>>();
 
     //public static
 

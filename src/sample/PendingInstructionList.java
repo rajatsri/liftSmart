@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by rajat on 06-11-2017.
  */
-public class PendingEventList extends ArrayList<ButtonEvent> {
+public class PendingInstructionList extends ArrayList<ButtonEvent> {
 
     int currentPointer=-1;
 
