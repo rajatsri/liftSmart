@@ -18,9 +18,9 @@ public class GlobalVariables {
     public static int marginLeft=100;
     public static int margintop=100;
 
-    public static int numberOfFloors=20;
-    public static int numberOfChannels=5;
-    public static int numberOfBoxes=5;
+    public static int numberOfFloors=10;
+    public static int numberOfChannels=2;
+    public static int numberOfBoxes=2;
 
     public static HashMap<Integer,Floor> floors= new HashMap<Integer,Floor>();
     public static HashMap<Integer,LiftChannel> channels= new HashMap<Integer,LiftChannel>();
@@ -29,6 +29,14 @@ public class GlobalVariables {
     public static PendingInstructionList pendingInstructionList = new PendingInstructionList();
 
     public static HashMap<Car,ArrayList<Movement>> pendingActionListPerCar= new HashMap<Car,ArrayList<Movement>>();
+
+    public static void initiallizeThings(){
+        //create a blank list of pending actions for each car
+        for(Car c:cars.values()){
+            ArrayList<Movement> thisCarsList = new ArrayList<Movement>();
+            pendingActionListPerCar.put(c,thisCarsList);
+        }
+    }
 
     //public static
 

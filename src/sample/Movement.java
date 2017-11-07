@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransitionBuilder;
 import javafx.scene.paint.Color;
@@ -37,8 +38,10 @@ public class Movement {
                 .build();
     }
 
-    Movement(Car car){
 
-
+    public Boolean isComplete(){
+        if(pathTransition.getStatus()== Animation.Status.STOPPED)
+            return true;
+        return false;
     }
 }

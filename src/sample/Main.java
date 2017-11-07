@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,31 +22,27 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, GlobalVariables.sceneWidth,GlobalVariables.sceneHeight));
 
+
         layFloors(root);
         createChannels(GlobalVariables.numberOfChannels);
+        createCars(root);
+        GlobalVariables.initiallizeThings();
 
-        initiallizeLifts(root);
 
-        movement =new Movement(GlobalVariables.cars.get(1),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
-        root.getChildren().add(movement.path);
 
-        movement1 =new Movement(GlobalVariables.cars.get(2),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
-        root.getChildren().add(movement1.path);
 
-        movement3 =new Movement(GlobalVariables.cars.get(3),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
-        root.getChildren().add(movement3.path);
-
-        movement4 =new Movement(GlobalVariables.cars.get(4),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
-        root.getChildren().add(movement4.path);
-
-        movement5 =new Movement(GlobalVariables.cars.get(0),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
-        root.getChildren().add(movement5.path);
 
     }
 
-    private void initiallizeLifts(Group root) {
+    private void createCars(Group root) {
         for(int i=0;i<GlobalVariables.numberOfBoxes;i++){
-            Car liftbox = new Car(GlobalVariables.channels.get(i),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+
+            //Initiallize all cars at random floors
+            //Car liftbox = new Car(GlobalVariables.channels.get(i),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+
+            //Initialize all cars at lowest floor
+            Car liftbox = new Car(GlobalVariables.channels.get(i),GlobalVariables.floors.get(0));
+
             root.getChildren().add(liftbox);
             GlobalVariables.cars.put(i,liftbox);
             /*movement =new Movement(liftbox,GlobalVariables.floors.get((int)Math.random()*GlobalVariables.numberOfFloors));
@@ -67,43 +65,71 @@ public class Main extends Application {
     }
 
     public void play() {
-        movement.pathTransition.play();
-        movement1.pathTransition.play();
+       // movement.pathTransition.play();
+
+       /* movement =new Movement(GlobalVariables.cars.get(1),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+        GlobalVariables.root.getChildren().add(movement.path);
+
+        movement1 =new Movement(GlobalVariables.cars.get(1),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+        GlobalVariables.root.getChildren().add(movement1.path);
+
+        movement3 =new Movement(GlobalVariables.cars.get(3),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+        GlobalVariables.root.getChildren().add(movement3.path);
+
+        movement4 =new Movement(GlobalVariables.cars.get(4),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+        GlobalVariables.root.getChildren().add(movement4.path);
+
+        movement5 =new Movement(GlobalVariables.cars.get(0),GlobalVariables.floors.get((int)(Math.random()*GlobalVariables.numberOfFloors)));
+        GlobalVariables.root.getChildren().add(movement5.path);*/
+
+
+
+    /*    movement1.pathTransition.play();
         movement3.pathTransition.play();
-        movement4.pathTransition.play();
         movement5.pathTransition.play();
+        movement.pathTransition.play();
+        movement4.pathTransition.play();*/
 
-        System.out.print(movement.pathTransition.getStatus());
-
-
+        //System.out.print(movement.pathTransition.getStatus());
 
         PendingInstructionList p= GlobalVariables.pendingInstructionList;
 
         //Few button Presses from the floors
-        p.add(new ButtonEvent(GlobalVariables.floors.get(4), ButtonEvent.Direction.DOWN));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(6), ButtonEvent.Direction.UP));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(7), ButtonEvent.Direction.DOWN));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(8), ButtonEvent.Direction.DOWN));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(3), ButtonEvent.Direction.UP));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(1), ButtonEvent.Direction.DOWN));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(0), ButtonEvent.Direction.UP));
+        p.add(new ButtonEvent(GlobalVariables.floors.get(4), ButtonEvent.Direction.UP));
+        p.add(new ButtonEvent(GlobalVariables.floors.get(6), ButtonEvent.Direction.DOWN));
 
 
         //few Button presses from inside the elevator cars
-        p.add(new ButtonEvent(GlobalVariables.floors.get(10), GlobalVariables.cars.get(2)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(5), GlobalVariables.cars.get(3)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(2), GlobalVariables.cars.get(4)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(8), GlobalVariables.cars.get(0)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(10), GlobalVariables.cars.get(1)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(13), GlobalVariables.cars.get(3)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(16), GlobalVariables.cars.get(2)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(2), GlobalVariables.cars.get(4)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(6), GlobalVariables.cars.get(0)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(14), GlobalVariables.cars.get(1)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(17), GlobalVariables.cars.get(3)));
-        p.add(new ButtonEvent(GlobalVariables.floors.get(9), GlobalVariables.cars.get(2)));
+        p.add(new ButtonEvent(GlobalVariables.floors.get(9), GlobalVariables.cars.get(0)));
+        p.add(new ButtonEvent(GlobalVariables.floors.get(3), GlobalVariables.cars.get(1)));
+        p.add(new ButtonEvent(GlobalVariables.floors.get(2), GlobalVariables.cars.get(1)));
 
-        new ProcessorThread().start();
+
+        ProcessorCore processorCore= new ProcessorCore();
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                int i = 0;
+                while (true) {
+                    final int finalI = i;
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            processorCore.settleEvents();
+                        }
+                    });
+                    i++;
+                    Thread.sleep(10);
+                }
+            }
+        };
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+
+
+
+
 
 
         //movement.pathTransition.stop();
